@@ -26,20 +26,20 @@ This library is one of two components in a complete multimodal manipulation syst
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/
+git clone https://github.com/inaranger/HRI_robot_pkg
 cd hri_robot_pkg
 ```
-2. Create Virtual Enviroment and Install Dependencies:
+2. Create Virtual Environment and Install Dependencies:
 ```bash
 conda env create -f robot-pkg.yml
 ```
 
-3. Activate the Virtual enviorement
+3. Activate the Virtual environment
 ```bash
 conda activate robot-pkg
 ```
 
-4. Substitute files from external libraries with our [files to replace](https://https://github.com/): 
+4. Substitute files from external libraries with our [files to replace](https://github.com/inaranger/HRI_robot_pkg/files_to_replace) 
 - The deoxys charmander.ymlcontrol_config.yml (in deoxys_control/deoxys/config)
 - The deoxys motion_utils.py (in deoxys_control/deoxys/deoxys/experimental) to include the gripper width 
 - The Yolo results.py (in ultralytics/ultralytics/engine) and plotting.py(in ultralytics/ultralytics/utils/plotting.py) have been modified to show the match the bounding box color to the brick color 
@@ -90,13 +90,13 @@ python3 -m start_robot --calibrate
 - **`start_robot.py`**: Main script - run this to start interaction
 - **`robot_functions.py`**: Defines executable functions
 - **`real_sense_reader.py`**: Handles image capturing from the Intel RealSense camera
-- **`intel_publisher.py`**: Can stream the camera images and published them to the AriaPC via ZMQ
+- **`intel_publisher.py`**: Can stream the camera images and publish them to the AriaPC via ZMQ
 
 
 ## Architecture
 This component operates as part of a two-part system:
 
-1. **[Multimodal data straming component](https://github.com/joshopp/aria_pkg):** Streams and processes data from the Meta Aria glasses
+1. **[Multimodal data straming component](https://github.com/HRI_aria-nlp_pkg):** Streams and processes data from the Meta Aria glasses
 2. **Robot Component (this package):** Handles robot control
    
 The components communicate through a distributed architecture using ZeroMQ for efficient inter-process communication.
