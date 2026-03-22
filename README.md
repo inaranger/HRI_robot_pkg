@@ -1,0 +1,102 @@
+# Robotic Arm component - robot_pkg
+
+A Python library for controlling a robotic arm. This component controls the Franka Emika Panda robotic arm using Deoxys to pick up distinct bricks by position.
+
+## Overview
+
+This library is one of two components in a complete multimodal manipulation system developed for a Bachelor's thesis. It handles:
+
+- brick detection using YOLO
+- 6D pose estimation using FoundationPose
+- computing the optimal grip
+- collision checking using pybullet
+- manipulation using inverse kinematics and the Deoxys library
+
+## Requirements
+
+- Ubuntu 22
+- Python 3.10+
+- [FoundationPose](https://github.com/NVlabs/FoundationPose) installation
+- [Deoxys](https://github.com/UT-Austin-RPL/deoxys_control) installation
+- YOLO model file (`best.pt`)
+- [Conda](https://www.anaconda.com/download) for the setup virtual enviorement
+- Additional dependencies found within `robot-pkg.yml`
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/
+cd hri_robot_pkg
+```
+2. Create Virtual Enviroment and Install Dependencies:
+```bash
+conda env create -f robot-pkg.yml
+```
+
+3. Activate the Virtual enviorement
+```bash
+conda activate robot-pkg
+```
+
+4. Substitute files from external libraries with our [files to replace](https://https://github.com/): 
+- The deoxys charmander.ymlcontrol_config.yml (in deoxys_control/deoxys/config)
+- The deoxys motion_utils.py (in deoxys_control/deoxys/deoxys/experimental) to include the gripper width 
+- The Yolo results.py (in ultralytics/ultralytics/engine) and plotting.py(in ultralytics/ultralytics/utils/plotting.py) have been modified to show the match the bounding box color to the brick color 
+
+
+5. Download required models:
+   - Place YOLO mask model `best.pt` in `src/` directory
+
+### Docker
+To make this system compatible with newer GPU's. a Docker Repository was implemented for NVIDIA RTX GPU 5090 running both foundationpose and Deoxys compatible with new Drivers (Cuda 12.8.1). The Installation with Docker works as follows:
+1. Get the Docker container 
+
+2. Start the docker container
+
+3. Follow the steps 1. through 5. of the normal installation process 
+
+**Note**: As pytorch3d does not support pip, we had to build and install it from a local clone https://github.com/facebookresearch/pytorch3d
+Install Infos: https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md 
+
+## Quick Start
+
+### 1. Go to the franka web interface: https://172.16.0.2
+
+### 2. Unlock all joints and activate FCI
+
+### 3. Run the scripts in deoxys_control/deoxys/auto_scripts:   
+  ./auto_arm.sh ../config/charmander.yml ../config/control_config.yml  
+  ./auto_gripper.sh ../config/charmander.yml ../config/control_config.yml  
+  You can use the helper scripts: [run_arm](./src/run_arm.sh) and [run_gripper](./src/run_gripper.sh), if you change the target directory to your version of deoxys.
+  
+### 4. Start the Interaction System
+```bash
+cd src
+python3 -m start_robot
+```
+
+## Configuration
+
+### Camera Calibration
+To calibrate the camera (Intel RealSense) mounted on top of the robot, place a camera calibration board on the table and run this script
+```bash
+python3 -m start_robot --calibrate
+```
+
+## Core Components
+
+### Main Scripts
+- **`start_robot.py`**: Main script - run this to start interaction
+- **`robot_functions.py`**: Defines executable functions
+- **`real_sense_reader.py`**: Handles image capturing from the Intel RealSense camera
+- **`intel_publisher.py`**: Can stream the camera images and published them to the AriaPC via ZMQ
+
+
+## Architecture
+This component operates as part of a two-part system:
+
+1. **[Multimodal data straming component](https://github.com/joshopp/aria_pkg):** Streams and processes data from the Meta Aria glasses
+2. **Robot Component (this package):** Handles robot control
+   
+The components communicate through a distributed architecture using ZeroMQ for efficient inter-process communication.
