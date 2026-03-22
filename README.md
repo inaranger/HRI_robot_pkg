@@ -39,7 +39,7 @@ conda env create -f robot-pkg.yml
 conda activate robot-pkg
 ```
 
-4. Substitute files from external libraries with our [files to replace](https://github.com/inaranger/HRI_robot_pkg/files_to_replace) 
+4. Substitute files from external libraries with our [files to replace](https://github.com/inaranger/HRI_robot_pkg/tree/main/files_to_replace) 
 - The deoxys charmander.ymlcontrol_config.yml (in deoxys_control/deoxys/config)
 - The deoxys motion_utils.py (in deoxys_control/deoxys/deoxys/experimental) to include the gripper width 
 - The Yolo results.py (in ultralytics/ultralytics/engine) and plotting.py(in ultralytics/ultralytics/utils/plotting.py) have been modified to show the match the bounding box color to the brick color 
@@ -96,7 +96,7 @@ python3 -m start_robot --calibrate
 ## Architecture
 This component operates as part of a two-part system:
 
-1. **[Multimodal data straming component](https://github.com/HRI_aria-nlp_pkg):** Streams and processes data from the Meta Aria glasses
+1. **[Multimodal data straming component](https://github.com/inaranger/HRI_aria-nlp_pkg):** Streams and processes data from the Meta Aria glasses
 2. **Robot Component (this package):** Handles robot control
    
 The components communicate through a distributed architecture using ZeroMQ for efficient inter-process communication.
