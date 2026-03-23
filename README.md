@@ -1,4 +1,4 @@
-# Robotic Arm component - robot_pkg
+#HRI-Pipeline - Robotic Arm component - HRI_robot_pkg
 
 A Python library for controlling a robotic arm. This component controls the Franka Emika Panda robotic arm using Deoxys to pick up distinct bricks by position.
 
