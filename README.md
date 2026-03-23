@@ -14,7 +14,7 @@ This library is one of two components in a complete multimodal manipulation syst
 
 ## Requirements
 
-- Ubuntu 22
+- Ubuntu 20
 - Python 3.10+
 - [FoundationPose](https://github.com/NVlabs/FoundationPose) installation
 - [Deoxys](https://github.com/UT-Austin-RPL/deoxys_control) installation
@@ -50,9 +50,15 @@ conda activate robot-pkg
 
 ### Docker
 To make this system compatible with newer GPU's. a Docker Repository was implemented for NVIDIA RTX GPU 5090 running both foundationpose and Deoxys compatible with new Drivers (Cuda 12.8.1). The Installation with Docker works as follows:
-1. Get the Docker container 
+1. Get the Docker container
+```bash
+docker pull inaranger/deoxys-foundationpose:latest
+```
 
 2. Start the docker container
+```bash
+docker run -it --rm -v /cshome:/cshome -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --net=host -v /home/ipnagias/workspace:/home/workspace --gpus all --name pddd --privileged deoxys-foundationpose
+```
 
 3. Follow the steps 1. through 5. of the normal installation process 
 
@@ -96,7 +102,7 @@ python3 -m start_robot --calibrate
 ## Architecture
 This component operates as part of a two-part system:
 
-1. **[Multimodal data straming component](https://github.com/inaranger/HRI_aria-nlp_pkg):** Streams and processes data from the Meta Aria glasses
+1. **[Multimodal data streaming component](https://github.com/inaranger/HRI_aria-nlp_pkg):** Streams and processes data from the Meta Aria glasses
 2. **Robot Component (this package):** Handles robot control
    
 The components communicate through a distributed architecture using ZeroMQ for efficient inter-process communication.
